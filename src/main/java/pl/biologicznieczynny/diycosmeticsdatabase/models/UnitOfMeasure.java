@@ -7,6 +7,5 @@ import javax.persistence.Entity;
 @Entity
 @Data
 public class UnitOfMeasure extends BaseEntity {
-
     private String uom;
 }

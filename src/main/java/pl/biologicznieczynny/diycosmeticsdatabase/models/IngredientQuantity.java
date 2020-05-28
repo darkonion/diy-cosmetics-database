@@ -25,5 +25,4 @@ public class IngredientQuantity extends BaseEntity {
 
     @ManyToOne
     private Recipe recipe;
-
 }

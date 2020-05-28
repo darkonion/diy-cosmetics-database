@@ -27,6 +27,8 @@ public class Recipe extends BaseEntity {
 
     private String name;
 
+    private String intro;
+
     @Lob
     private String description;
 
@@ -41,14 +43,16 @@ public class Recipe extends BaseEntity {
     @UpdateTimestamp
     private LocalDate dateUpdated;
 
-//    @Lob
-//    private byte[] image;
+    private String imageUrl;
 
-    @OneToMany(cascade = {CascadeType.REFRESH,
+    @ManyToMany(cascade = {CascadeType.REFRESH,
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.PERSIST}, mappedBy = "recipe")
-    private Set<Tool> equipment = new HashSet<>();
+            CascadeType.PERSIST})
+    @JoinTable(name = "recipe_tool",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "tool_id"))
+    private Set<Tool> tools = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "recipe_recipeCategory",
@@ -60,7 +64,7 @@ public class Recipe extends BaseEntity {
     private Set<Step> steps = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<IngredientQuantity> ingredients = new HashSet<>();
+    private Set<IngredientQuantity> ingredientQuantities = new HashSet<>();
 
 
 }
