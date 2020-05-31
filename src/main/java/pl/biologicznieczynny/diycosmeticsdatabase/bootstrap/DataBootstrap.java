@@ -60,32 +60,43 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         water.setName("Woda");
         water.setDescription("Woda swiatlo hemoglobina");
         water.setImageUrl("https://i2.wp.com/eduzabawy.com/wp-content/uploads/2017/11/woda.jpg");
+        water.setLatinName("H2O");
+        water.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         Ingredient linenOil = new Ingredient();
         linenOil.setName("Olej Lniany");
         linenOil.setDescription("Poprzez tłoczenie na zimno nasion lnu zwyczajnego otrzymywany jest olej roślinny o żółtawym zabarwieniu i intensywnym, cierpkim zapachu. Znany już w starożytnym Egipcie. Współcześnie wykorzystywany do celów spożywczych i przemysłowych.");
         linenOil.setImageUrl("https://cdn.galleries.smcloud.net/t/galleries/gf-YQxP-8qMS-t4bC_olej-lniany-obniza-cholesterol-664x442-nocrop.jpg");
+        linenOil.setLatinName("Linen Oil");
+        linenOil.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         Ingredient etoh = new Ingredient();
-        etoh.setName("EtOH");
+        etoh.setName("Etanol");
         etoh.setDescription("W temperaturze pokojowej jest bezbarwną, łatwopalną cieczą o swoistym zapachu i piekącym smaku. W obecności powietrza pali się ona słabo widocznym, niebieskawym płomieniem.");
         etoh.setImageUrl("https://thumbs.dreamstime.com/b/etanol-w-butelki-ikonie-mieszkanie-styl-79030851.jpg");
+        etoh.setLatinName("EtOH");
+        etoh.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         Ingredient sheaButter = new Ingredient();
         sheaButter.setName("Masło Shea");
         sheaButter.setDescription("Olej roślinny uzyskiwany z owoców masłosza Parka. W postaci świeżej, nieprzetworzonej ma konsystencję pasty, barwę białawą, jest niemal bezwonny i ma bardzo słabo wyczuwalny smak.cznym, niebieskawym płomieniem.");
         sheaButter.setImageUrl("https://www.gracefruit.com/uploads/images/products/large/gracefruit_gracefruit_organicunrefinedsheabutter_1460545985New_pic_1.jpg");
+        sheaButter.setLatinName("Vitellaria paradoxa");
+        sheaButter.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         Ingredient glycerin = new Ingredient();
         glycerin.setName("Gliceryna");
         glycerin.setDescription("Olej roślinny uzyskiwany z owoców masłosza Parka. W postaci świeżej, nieprzetworzonej ma konsystencję pasty, barwę białawą, jest niemal bezwonny i ma bardzo słabo wyczuwalny smak.cznym, niebieskawym płomieniem.");
         glycerin.setImageUrl("https://zasoby.ekologia.pl/artykulyNew/24967/xxl/1_800x600.jpg");
+        glycerin.setLatinName("glycerine");
+        glycerin.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         Ingredient propyleneGlycol = new Ingredient();
         propyleneGlycol.setName("Glikol Propylenowy");
         propyleneGlycol.setDescription("Olej roślinny uzyskiwany z owoców masłosza Parka. W postaci świeżej, nieprzetworzonej ma konsystencję pasty, barwę białawą, jest niemal bezwonny i ma bardzo słabo wyczuwalny smak.cznym, niebieskawym płomieniem.");
         propyleneGlycol.setImageUrl("https://procold.pl/wp-content/uploads/2019/04/Depositphotos_6800377_ds-e1554878919448.jpg");
-
+        propyleneGlycol.setLatinName("propylene-1,3-diol");
+        propyleneGlycol.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
 
         ingredientRepository.save(water);
         ingredientRepository.save(linenOil);

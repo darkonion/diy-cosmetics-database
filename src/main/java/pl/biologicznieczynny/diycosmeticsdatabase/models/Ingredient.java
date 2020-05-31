@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class Ingredient extends BaseEntity {
 
     private String name;
+    private String latinName;
     private String description;
     private String blogUrl;
     private String imageUrl;
