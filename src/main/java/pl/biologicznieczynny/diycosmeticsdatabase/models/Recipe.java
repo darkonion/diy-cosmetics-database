@@ -53,9 +53,7 @@ public class Recipe extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "tool_id"))
     private Set<Tool> tools = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.REFRESH,
-            CascadeType.DETACH,
-            CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(name = "recipe_recipeCategory",
             joinColumns = @JoinColumn(name ="recipe_id"),
             inverseJoinColumns = @JoinColumn(name ="recipeCategory_id"))
