@@ -1,10 +1,12 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
@@ -19,6 +21,8 @@ public class Step extends BaseEntity {
     @Lob
     private String detail;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 }
