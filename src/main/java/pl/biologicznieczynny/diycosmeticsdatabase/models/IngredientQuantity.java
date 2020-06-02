@@ -1,7 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import javax.persistence.OneToOne;
 @Setter
 @EqualsAndHashCode(exclude = {"recipe"})
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class IngredientQuantity extends BaseEntity {
 
