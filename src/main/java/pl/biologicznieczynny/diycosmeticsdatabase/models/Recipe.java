@@ -47,24 +47,23 @@ public class Recipe extends BaseEntity {
 
     @ManyToMany(cascade = {CascadeType.REFRESH,
             CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST})
+            CascadeType.MERGE})
     @JoinTable(name = "recipe_tool",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "tool_id"))
     private Set<Tool> tools = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.MERGE})
     @JoinTable(name = "recipe_recipeCategory",
             joinColumns = @JoinColumn(name ="recipe_id"),
-            inverseJoinColumns = @JoinColumn(name ="category_id"))
-    private Set<RecipeCategory> categories = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name ="recipeCategory_id"))
+    private Set<RecipeCategory> recipeCategories = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Step> steps = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<IngredientQuantity> ingredientQuantities = new HashSet<>();
-
-
 }

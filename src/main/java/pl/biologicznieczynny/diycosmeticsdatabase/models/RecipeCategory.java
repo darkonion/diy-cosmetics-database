@@ -1,5 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class RecipeCategory extends BaseEntity{
 
     private String categoryName;
 
-    @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "recipeCategories")
     private Set<Recipe> recipes = new HashSet<>();
 }

@@ -10,6 +10,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.models.IngredientQuantity;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Recipe;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Step;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Tool;
+import pl.biologicznieczynny.diycosmeticsdatabase.repositories.IngredientQuantityRepository;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.IngredientRepository;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.RecipeCategoryRepository;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.RecipeRepository;
@@ -31,17 +32,20 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private final RecipeCategoryRepository recipeCategoryRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final ToolRepository toolRepository;
+    private final IngredientQuantityRepository ingredientQuantityRepository;
 
     public DataBootstrap(IngredientRepository ingredientRepository,
             RecipeRepository recipeRepository,
             RecipeCategoryRepository recipeCategoryRepository,
             UnitOfMeasureRepository unitOfMeasureRepository,
-            ToolRepository toolRepository) {
+            ToolRepository toolRepository,
+            IngredientQuantityRepository ingredientQuantityRepository) {
         this.ingredientRepository = ingredientRepository;
         this.recipeRepository = recipeRepository;
         this.recipeCategoryRepository = recipeCategoryRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.toolRepository = toolRepository;
+        this.ingredientQuantityRepository = ingredientQuantityRepository;
     }
 
 
@@ -155,18 +159,22 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Tool mixer = new Tool();
         mixer.setName("Mikser");
         mixer.setDescription("Prosty kuchenny misker");
+        toolRepository.save(mixer);
 
         Tool spoon = new Tool();
         spoon.setName("Łyżka");
         spoon.setDescription("Metalowa łyżka do mieszania");
+        toolRepository.save(spoon);
 
         Tool jewelryWeight = new Tool();
         jewelryWeight.setName("Waga Jubilerska");
         jewelryWeight.setDescription("Zwykła waga jubilerska, do nabycia w smartshopach albo na allegro");
+        toolRepository.save(jewelryWeight);
 
         Tool cylinder = new Tool();
         cylinder.setName("Cylinder miarowy 10ml");
         cylinder.setDescription("Cylinder miarowy o pojemności 10ml, im mniejszy tym lepszy");
+        toolRepository.save(cylinder);
 
         Step first = new Step();
         first.setName("Krok pierwszy - przygotowanie składników");
@@ -199,7 +207,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         bodyCream.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         bodyCream.setDifficulty(Difficulty.MODERATE);
         bodyCream.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2018/08/aroma-care-close-up-725998-1.jpg");
-        bodyCream.setCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
+        bodyCream.setRecipeCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
         bodyCream.setIntro("Prosty w wykonaniu krem do ciała ujędrniający i odmładzający skórę.");
         recipeRepository.save(bodyCream);
 
@@ -210,7 +218,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
                 "Używanie kremów ekologicznych nie jest poświęceniem i przestawieniem się na gorsze produkty. Ekologia stanowi raczej miły dodatek - pięknieje twoja skóra i pięknieje świat. Podstawowa przewaga takich kremów nad tymi drogeryjnymi jest taka, że doskonale wiemy, co jest w naszym słoiczku. Firmy kosmetyczne kuszą nas koenzymem Q10, a reklamowany w ten sposób kosmetyk może zawierać śladowe ilości substancji, niewyczuwalne dla skóry. Składy na opakowaniach są podawane wedle zasady \"od największej do najmniejszej zawartości\", wyszczególnienia procentowe należą do rzadkości. Zakraplając witaminę E i olej arganowy do samodzielnie zrobionego kremu widzimy za co płacimy. Co więcej, składy drogeryjnych specyfików są standaryzowane.");
         faceCream.setDifficulty(Difficulty.HARD);
         faceCream.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2019/09/2-1.jpg");
-        faceCream.setCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
+        faceCream.setRecipeCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
         faceCream.setIntro("Zaawansowany krem do twarzy na noc, pozytywne efekty już po 3 dniach stosowania! ");
 
         linenOilQuantity.setRecipe(faceCream);
@@ -233,7 +241,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         headShampoo.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         headShampoo.setDifficulty(Difficulty.MODERATE);
         headShampoo.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2019/07/3.jpg");
-        headShampoo.setCategories(Set.of(recipeCategoryRepository.findById(2L).get()));
+        headShampoo.setRecipeCategories(Set.of(recipeCategoryRepository.findById(2L).get()));
         headShampoo.setIntro("Odświeżający szampon do włosów, w składzie min. pokrzywa, szauwia i olej kokosowy.");
         recipeRepository.save(headShampoo);
 
@@ -243,7 +251,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         waterSoap.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         waterSoap.setDifficulty(Difficulty.MODERATE);
         waterSoap.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2019/07/hoa1.jpg");
-        waterSoap.setCategories(Set.of(recipeCategoryRepository.findById(1L).get()));
+        waterSoap.setRecipeCategories(Set.of(recipeCategoryRepository.findById(1L).get()));
         waterSoap.setIntro("Mydło do dłoni niedrażniące skóry, skuteczne w walce z COVID");
         recipeRepository.save(waterSoap);
 
@@ -253,7 +261,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         faceSerum.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         faceSerum.setDifficulty(Difficulty.HARD);
         faceSerum.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2019/06/7.jpg");
-        faceSerum.setCategories(Set.of(recipeCategoryRepository.findById(1L).get()));
+        faceSerum.setRecipeCategories(Set.of(recipeCategoryRepository.findById(1L).get()));
         faceSerum.setIntro("Serum do twarzy, nie wiem co robi, bo nie mam pojęcia czym jest serum");
         recipeRepository.save(faceSerum);
 
@@ -263,7 +271,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         perfumeOil.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         perfumeOil.setDifficulty(Difficulty.EASY);
         perfumeOil.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2019/09/3.jpg");
-        perfumeOil.setCategories(Set.of(recipeCategoryRepository.findById(3L).get()));
+        perfumeOil.setRecipeCategories(Set.of(recipeCategoryRepository.findById(3L).get()));
         perfumeOil.setIntro("Olejek zapachowy uwalniający zapach pod wpływem ciepła, idealny do relaksu w domowym SPA");
         recipeRepository.save(perfumeOil);
 
@@ -273,7 +281,7 @@ public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent>
         oilBalm.setDescription("W potocznym i marketingowym języku słowo \"olejek\" używane jest niewłaściwie do określenia kosmetyków składających się z rozpuszczalnych w tłuszczach (lipofilowych) składników. W kosmetologii nazwa olejki zarezerwowana jest dla olejków eterycznych (lotnych destylatów z roślin). Z kolei kosmetyki składające się z lipidowych składników to po prostu oliwki. Zrobienie oliwki zajmie Ci zaledwie kilka minut. Ważne, aby poznać kilka zasad łączenia składników, poza tym będziesz mogła tworzyć własne kosmetyki według preferencji i pomysłowości oraz jakości porównywalnej do najlepszych kosmetyków na rynku.");
         oilBalm.setDifficulty(EASY);
         oilBalm.setImageUrl("http://biologicznieczynny.pl/wp-content/uploads/2020/02/6.jpg");
-        oilBalm.setCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
+        oilBalm.setRecipeCategories(Set.of(recipeCategoryRepository.findById(1L).get(), recipeCategoryRepository.findById(3L).get()));
         oilBalm.setIntro("Aromatyczny olejek do ciała dla leniwych, tylko trzy składniki!");
 
 

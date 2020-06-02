@@ -13,7 +13,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.models.Recipe;
 @CrossOrigin
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    Page<Recipe> findByCategoriesId(@RequestParam("id") Long id, Pageable pageable);
+    Page<Recipe> findByRecipeCategoriesId(@RequestParam("id") Long id, Pageable pageable);
     Page<Recipe> findByDifficulty(@RequestParam("lvl") Difficulty lvl, Pageable pageable);
     Page<Recipe> findByNameContainingIgnoreCase(@RequestParam("query") String query, Pageable pageable);
 }
