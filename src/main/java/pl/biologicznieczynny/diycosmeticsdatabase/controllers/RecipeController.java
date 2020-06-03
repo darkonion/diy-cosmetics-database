@@ -3,6 +3,7 @@ package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,13 @@ public class RecipeController {
     @PostMapping("/recipes")
     public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe recipe) {
         return recipeService.addNewRecipe(recipe);
+    }
+
+    //delete's
+
+    @DeleteMapping("/recipes/{id}")
+    public void deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteRecipeById(id);
     }
 
 

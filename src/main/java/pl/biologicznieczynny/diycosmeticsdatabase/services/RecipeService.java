@@ -22,6 +22,10 @@ public class RecipeService {
     public RecipeService(RecipeRepository recipeRepository) {this.recipeRepository = recipeRepository;}
 
 
+    public List<Recipe> findAll() {
+        return recipeRepository.findAll();
+    }
+
     public Page<Recipe> findAll(int page, int size, Long categoryId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
         if (categoryId == null) {
@@ -53,10 +57,16 @@ public class RecipeService {
                 .buildAndExpand(savedRecipe.getId())
                 .toUri();
 
-        ResponseEntity<Recipe> response = ResponseEntity
+        return ResponseEntity
                 .created(uri)
                 .body(savedRecipe);
+    }
 
-        return response;
+    public void deleteRecipeById(Long id) {
+        if (recipeRepository.existsById(id)) {
+            recipeRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Recipe with id: " + id + " already does not exist");
+        }
     }
 }

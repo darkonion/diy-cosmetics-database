@@ -3,6 +3,7 @@ package pl.biologicznieczynny.diycosmeticsdatabase.services;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling.NotFoundException;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Tool;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.ToolRepository;
 
@@ -29,8 +30,35 @@ public class ToolService {
                 .buildAndExpand(savedTool.getId())
                 .toUri();
 
-        ResponseEntity<Tool> response = ResponseEntity.created(uri).body(savedTool);
-        return response;
+        return ResponseEntity
+                .created(uri)
+                .body(savedTool);
+    }
+
+    public void deleteToolById(Long id) {
+        if (toolRepository.existsById(id)) {
+            toolRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Tool with id: " + id + " already does not exist");
+        }
+    }
+
+    public ResponseEntity<Tool> updateTool(Tool tool) {
+        Long id = tool.getId();
+        if (toolRepository.existsById(id)) {
+            Tool updatedTool = toolRepository.save(tool);
+
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(updatedTool.getId())
+                    .toUri();
+
+            return ResponseEntity
+                    .created(uri)
+                    .body(updatedTool);
+        } else {
+            throw new NotFoundException("Tool with id:" + id + " does not exist - cannot be updated!");
+        }
     }
 
 }

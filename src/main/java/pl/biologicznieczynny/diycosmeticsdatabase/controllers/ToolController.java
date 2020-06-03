@@ -2,8 +2,11 @@ package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,17 +25,31 @@ public class ToolController {
     public ToolController(ToolService toolService) {this.toolService = toolService;}
 
 
-    //gets
+    //get's
 
     @GetMapping("/tools")
     public List<Tool> getToolList() {
         return toolService.getToolsList();
     }
 
-    //posts
+    //post's
 
     @PostMapping("/tools")
     public ResponseEntity<Tool> addNewTool(@RequestBody Tool tool) {
         return toolService.addNewTool(tool);
+    }
+
+    //delete's
+
+    @DeleteMapping("/tools/{id}")
+    public void deleteTool(@PathVariable Long id) {
+        toolService.deleteToolById(id);
+    }
+
+    //put's
+
+    @PutMapping("/tools")
+    public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
+        return toolService.updateTool(tool);
     }
 }

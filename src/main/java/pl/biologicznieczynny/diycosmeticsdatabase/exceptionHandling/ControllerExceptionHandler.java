@@ -1,5 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(new ExceptionModel(HttpStatus.NOT_FOUND, error, e));
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<Object> handleExceptionDataIntegrityViolation(Exception e) {
+        String error = "Data Integrity Violation - You are trying to remove data linked with other data.";
+        return buildResponse(new ExceptionModel(HttpStatus.CONFLICT, error, e));
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleExceptionArgumentTypeMismatch(Exception e) {
@@ -35,6 +43,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
         return buildResponse(new ExceptionModel(HttpStatus.BAD_REQUEST, request.getDescription(true), ex));
     }
+
+
+    //support-----------
 
     private ResponseEntity<Object> buildResponse(ExceptionModel exceptionModel) {
         return new ResponseEntity<>(exceptionModel, exceptionModel.getStatus());

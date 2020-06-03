@@ -8,6 +8,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.repositories.RecipeCategoryRep
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class CategoryController {
@@ -16,7 +17,7 @@ public class CategoryController {
 
     public CategoryController(RecipeCategoryRepository recipeCategoryRepository) {this.recipeCategoryRepository = recipeCategoryRepository;}
 
-    @CrossOrigin
+
     @RequestMapping("/recipeCategories")
     public List<RecipeCategory> getRecipeCategoriesList() {
         return recipeCategoryRepository.findAll();

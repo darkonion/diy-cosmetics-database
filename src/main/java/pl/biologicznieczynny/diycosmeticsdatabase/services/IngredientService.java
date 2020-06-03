@@ -46,10 +46,34 @@ public class IngredientService {
                 .buildAndExpand(savedIngredient.getId())
                 .toUri();
 
-        ResponseEntity<Ingredient> response = ResponseEntity
+        return ResponseEntity
                 .created(uri)
                 .body(savedIngredient);
+    }
 
-        return response;
+    public void deleteIngredientById(Long id) {
+        if (ingredientRepository.existsById(id)) {
+            ingredientRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Ingredient with id: " + id + " already does not exist");
+        }
+    }
+
+    public ResponseEntity<Ingredient> updateIngredient(Ingredient ingredient) {
+        Long id = ingredient.getId();
+        if (ingredientRepository.existsById(id)) {
+            Ingredient updatedIngredient = ingredientRepository.save(ingredient);
+
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(updatedIngredient.getId())
+                    .toUri();
+
+            return ResponseEntity
+                    .created(uri)
+                    .body(updatedIngredient);
+        } else {
+            throw new NotFoundException("Tool with id:" + id + " does not exist - cannot be updated!");
+        }
     }
 }
