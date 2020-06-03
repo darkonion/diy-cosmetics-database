@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Tool;
 import pl.biologicznieczynny.diycosmeticsdatabase.services.ToolService;
 
+import java.net.URI;
 import java.util.List;
 
 @CrossOrigin
@@ -36,7 +38,17 @@ public class ToolController {
 
     @PostMapping("/tools")
     public ResponseEntity<Tool> addNewTool(@RequestBody Tool tool) {
-        return toolService.addNewTool(tool);
+
+        Tool savedTool = toolService.addNewTool(tool);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedTool.getId())
+                .toUri();
+
+        return ResponseEntity
+                .created(uri)
+                .body(savedTool);
     }
 
     //delete's
@@ -50,6 +62,15 @@ public class ToolController {
 
     @PutMapping("/tools")
     public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
-        return toolService.updateTool(tool);
+        Tool updatedTool = toolService.updateTool(tool);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(updatedTool.getId())
+                .toUri();
+
+        return ResponseEntity
+                .created(uri)
+                .body(updatedTool);
     }
 }

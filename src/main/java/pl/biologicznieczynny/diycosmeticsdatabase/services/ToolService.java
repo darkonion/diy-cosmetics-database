@@ -1,13 +1,10 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.services;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling.NotFoundException;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Tool;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.ToolRepository;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -22,17 +19,10 @@ public class ToolService {
         return toolRepository.findAll();
     }
 
-    public ResponseEntity<Tool> addNewTool(Tool tool) {
-        Tool savedTool = toolRepository.save(tool);
+    public Tool addNewTool(Tool tool) {
+        return toolRepository.save(tool);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedTool.getId())
-                .toUri();
 
-        return ResponseEntity
-                .created(uri)
-                .body(savedTool);
     }
 
     public void deleteToolById(Long id) {
@@ -43,21 +33,12 @@ public class ToolService {
         }
     }
 
-    public ResponseEntity<Tool> updateTool(Tool tool) {
+    public Tool updateTool(Tool tool) {
         Long id = tool.getId();
         if (toolRepository.existsById(id)) {
-            Tool updatedTool = toolRepository.save(tool);
-
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(updatedTool.getId())
-                    .toUri();
-
-            return ResponseEntity
-                    .created(uri)
-                    .body(updatedTool);
+            return toolRepository.save(tool);
         } else {
-            throw new NotFoundException("Tool with id:" + id + " does not exist - cannot be updated!");
+            throw new NotFoundException("Tool with id: " + id + " does not exist - cannot be updated!");
         }
     }
 
