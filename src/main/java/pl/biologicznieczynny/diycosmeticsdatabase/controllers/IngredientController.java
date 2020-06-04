@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Ingredient;
 import pl.biologicznieczynny.diycosmeticsdatabase.services.IngredientService;
-import pl.biologicznieczynny.diycosmeticsdatabase.services.RecipeService;
 
 @CrossOrigin
 @RestController
@@ -23,11 +22,9 @@ import pl.biologicznieczynny.diycosmeticsdatabase.services.RecipeService;
 public class IngredientController {
 
     private final IngredientService ingredientService;
-    private final RecipeService recipeService;
 
-    public IngredientController(IngredientService ingredientService,
-            RecipeService recipeService) {this.ingredientService = ingredientService;
-        this.recipeService = recipeService;
+    public IngredientController(IngredientService ingredientService) {
+        this.ingredientService = ingredientService;
     }
 
     //get's
@@ -64,6 +61,5 @@ public class IngredientController {
     public void deleteIngredient(@PathVariable Long id) {
         ingredientService.deleteIngredientById(id);
     }
-
 
 }
