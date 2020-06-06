@@ -1,5 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +9,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.repositories.RecipeCategoryRep
 
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -20,6 +22,7 @@ public class CategoryController {
 
     @RequestMapping("/recipeCategories")
     public List<RecipeCategory> getRecipeCategoriesList() {
+        log.info("Getting full list of categories");
         return recipeCategoryRepository.findAll();
     }
 }

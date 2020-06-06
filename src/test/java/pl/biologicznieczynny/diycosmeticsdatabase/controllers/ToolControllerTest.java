@@ -170,4 +170,8 @@ class ToolControllerTest {
 
         verify(toolService, times(1)).updateTool(any(Tool.class));
     }
+
+    @Test
+    void getToolById() {
+    }
 }

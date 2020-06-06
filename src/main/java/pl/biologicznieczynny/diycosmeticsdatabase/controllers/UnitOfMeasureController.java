@@ -1,5 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.repositories.UnitOfMeasureRepo
 
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -20,6 +22,7 @@ public class UnitOfMeasureController {
 
     @GetMapping("/units")
     public List<UnitOfMeasure> getUomsList() {
+        log.info("Getting full list of Units of Measure");
         return repository.findAll();
     }
 }

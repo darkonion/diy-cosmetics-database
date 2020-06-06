@@ -1,5 +1,6 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.services.ToolService;
 import java.net.URI;
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -31,14 +33,21 @@ public class ToolController {
 
     @GetMapping("/tools")
     public List<Tool> getToolList() {
+        log.info("Getting full list of tools");
         return toolService.getToolsList();
+    }
+
+    @GetMapping("/tools/{id}")
+    public Tool getToolById(@PathVariable Long id) {
+        log.info("Getting tool by tool id: " + id);
+        return this.toolService.findById(id);
     }
 
     //post's
 
     @PostMapping("/tools")
     public ResponseEntity<Tool> addNewTool(@RequestBody Tool tool) {
-
+        log.info("Persisting new tool: " + tool.getName());
         Tool savedTool = toolService.addNewTool(tool);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -55,6 +64,7 @@ public class ToolController {
 
     @DeleteMapping("/tools/{id}")
     public void deleteTool(@PathVariable Long id) {
+        log.info("Deleting tool with id: " + id);
         toolService.deleteToolById(id);
     }
 
@@ -62,6 +72,7 @@ public class ToolController {
 
     @PutMapping("/tools")
     public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
+        log.info("Updating tool:" + tool.getName());
         Tool updatedTool = toolService.updateTool(tool);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

@@ -22,10 +22,7 @@ public class RecipeService {
     public RecipeService(RecipeRepository recipeRepository) {this.recipeRepository = recipeRepository;}
 
 
-    public List<Recipe> findAll() {
-        return recipeRepository.findAll();
-    }
-
+    //getting list of recipes in pageable form
     public Page<Recipe> findAll(int page, int size, Long categoryId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
         if (categoryId == null) {
@@ -35,16 +32,19 @@ public class RecipeService {
         }
     }
 
+    //getting recipe by recipe id
     public Recipe findById(Long id) {
         return recipeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Recipe with id: " + id + " not found"));
     }
 
+    //search query processing
     public List<Recipe> findBySearchQuery(String query) {
         query.toLowerCase().trim();
         return recipeRepository.findByNameContainingIgnoreCase(query);
     }
 
+    //adding new recipe
     public ResponseEntity<Recipe> addNewRecipe(Recipe recipe) {
 
         recipe.getIngredientQuantities().forEach(q -> q.setRecipe(recipe));
@@ -62,11 +62,26 @@ public class RecipeService {
                 .body(savedRecipe);
     }
 
+    //deleting recipe by recipe id
     public void deleteRecipeById(Long id) {
         if (recipeRepository.existsById(id)) {
             recipeRepository.deleteById(id);
         } else {
             throw new NotFoundException("Recipe with id: " + id + " already does not exist");
+        }
+    }
+
+    //updating recipe
+    public Recipe updateRecipe(Recipe recipe) {
+
+        recipe.getIngredientQuantities().forEach(q -> q.setRecipe(recipe));
+        recipe.getSteps().forEach(s -> s.setRecipe(recipe));
+
+        Long id = recipe.getId();
+        if (recipeRepository.existsById(id)) {
+            return recipeRepository.save(recipe);
+        } else {
+            throw new NotFoundException("Recipe with id:" + id + " does not exist - cannot be updated!");
         }
     }
 }

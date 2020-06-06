@@ -19,10 +19,13 @@ public class ToolService {
         return toolRepository.findAll();
     }
 
+    public Tool findById(Long id) {
+        return toolRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Tool with id" + id + " not found"));
+    }
+
     public Tool addNewTool(Tool tool) {
         return toolRepository.save(tool);
-
-
     }
 
     public void deleteToolById(Long id) {

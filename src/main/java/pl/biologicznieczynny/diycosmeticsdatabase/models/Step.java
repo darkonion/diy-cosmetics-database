@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 public class Step extends BaseEntity {
 
     private String name;
+    private int seq;
 
     @Lob
     private String detail;

@@ -6,6 +6,7 @@ INSERT INTO unit_of_measure (uom) VALUES ('Łyżeczki');
 INSERT INTO unit_of_measure (uom) VALUES ('Łyżki stołowe');
 INSERT INTO unit_of_measure (uom) VALUES ('g');
 INSERT INTO unit_of_measure (uom) VALUES ('ml');
+INSERT INTO unit_of_measure (uom) VALUES ('mg');
 
 
 

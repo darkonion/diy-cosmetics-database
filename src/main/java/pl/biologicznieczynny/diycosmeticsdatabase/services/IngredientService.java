@@ -59,19 +59,10 @@ public class IngredientService {
         }
     }
 
-    public ResponseEntity<Ingredient> updateIngredient(Ingredient ingredient) {
+    public Ingredient updateIngredient(Ingredient ingredient) {
         Long id = ingredient.getId();
         if (ingredientRepository.existsById(id)) {
-            Ingredient updatedIngredient = ingredientRepository.save(ingredient);
-
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(updatedIngredient.getId())
-                    .toUri();
-
-            return ResponseEntity
-                    .created(uri)
-                    .body(updatedIngredient);
+            return ingredientRepository.save(ingredient);
         } else {
             throw new NotFoundException("Tool with id:" + id + " does not exist - cannot be updated!");
         }
