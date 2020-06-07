@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: diy-cosmetics-database
-  data:
-    rest:
-      base-path: /api
+  security:
+    user:
+      password: test123
+      name: jagodzinka
+
