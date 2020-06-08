@@ -2,6 +2,7 @@ package pl.biologicznieczynny.diycosmeticsdatabase.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Difficulty;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 import static pl.biologicznieczynny.diycosmeticsdatabase.models.Difficulty.EASY;
 
+@Profile("h2")
 @Component
 @Slf4j
 public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent> {

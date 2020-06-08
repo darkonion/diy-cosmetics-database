@@ -1,0 +1,18 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: diy-cosmetics-database
+  security:
+    user:
+      password: test123
+      name: jagodzinka
+  datasource:
+    url: jdbc:mysql://80.211.242.18:3306/biologicznieczynny-diy?autoReconnect=true&serverTimezone=UTC&useSSL=false
+    username: root
+    password: testpass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+
