@@ -8,7 +8,7 @@ Backend: Spring Boot
 
 Docker Image: https://hub.docker.com/repository/docker/darkonion/diy-cosmetics-database
 
-![alt text](https://i.imgur.com/L0HRbZh.png?1)
+![alt text](https://i.imgur.com/1nv0SxZ.png?1)
 
 
 

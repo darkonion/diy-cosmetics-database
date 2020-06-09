@@ -24,7 +24,7 @@ import java.util.Set;
 
 import static pl.biologicznieczynny.diycosmeticsdatabase.models.Difficulty.EASY;
 
-@Profile("h2")
+@Profile("firstrun")
 @Component
 @Slf4j
 public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
