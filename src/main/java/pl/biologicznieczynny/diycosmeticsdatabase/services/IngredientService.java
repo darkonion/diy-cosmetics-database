@@ -4,14 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling.NotFoundException;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Ingredient;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.IngredientRepository;
-
-import java.net.URI;
 
 @Service
 public class IngredientService {
@@ -34,21 +30,12 @@ public class IngredientService {
 
     public Ingredient findById(Long id) {
         return ingredientRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Ingredient with id" + id + " not found"));
+                .orElseThrow(() -> new NotFoundException("Ingredient with id " + id + " not found"));
     }
 
 
-    public ResponseEntity addNewIngredient(Ingredient ingredient) {
-        Ingredient savedIngredient = ingredientRepository.save(ingredient);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedIngredient.getId())
-                .toUri();
-
-        return ResponseEntity
-                .created(uri)
-                .body(savedIngredient);
+    public Ingredient addNewIngredient(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
     }
 
     public void deleteIngredientById(Long id) {

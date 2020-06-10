@@ -19,6 +19,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -172,6 +173,30 @@ class ToolControllerTest {
     }
 
     @Test
-    void getToolById() {
+    void getToolById() throws Exception {
+
+        //when
+        when(toolService.findById(anyLong())).thenReturn(testTool);
+
+        //then
+        mockMvc.perform(get("/api/tools/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"));
+
+        verify(toolService, times(1)).findById(anyLong());
+    }
+
+    @Test
+    void getToolByIdNumberFormatException() throws Exception {
+
+        //when
+        when(toolService.findById(anyLong())).thenReturn(testTool);
+
+        //then
+        mockMvc.perform(get("/api/tools/abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Incorrect number format"));
+
+        verify(toolService, times(0)).findById(anyLong());
     }
 }

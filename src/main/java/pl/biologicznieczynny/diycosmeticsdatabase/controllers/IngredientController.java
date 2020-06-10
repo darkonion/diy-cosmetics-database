@@ -54,7 +54,16 @@ public class IngredientController {
     @PostMapping("/ingredients")
     public ResponseEntity<Ingredient> addNewIngredient(@RequestBody Ingredient ingredient) {
         log.info("Persisting new ingredient: " + ingredient.getName());
-        return ingredientService.addNewIngredient(ingredient);
+        Ingredient savedIngredient = ingredientService.addNewIngredient(ingredient);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedIngredient.getId())
+                .toUri();
+
+        return ResponseEntity
+                .created(uri)
+                .body(savedIngredient);
     }
 
     //put's
