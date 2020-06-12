@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: test
+    active: default
   application:
     name: diy-cosmetics-database
   security:
@@ -16,5 +16,8 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 
