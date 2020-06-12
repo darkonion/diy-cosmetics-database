@@ -19,6 +19,7 @@ import pl.biologicznieczynny.diycosmeticsdatabase.models.Ingredient;
 import pl.biologicznieczynny.diycosmeticsdatabase.services.IngredientService;
 
 import java.net.URI;
+import java.util.Set;
 
 @Slf4j
 @CrossOrigin
@@ -49,6 +50,12 @@ public class IngredientController {
         return ingredientService.findById(id);
     }
 
+    @GetMapping("/ingredients/{id}/replacements")
+    public Set<Ingredient> getIngredientReplacements(@PathVariable Long id) {
+        log.info("Getting list of replacements for ingredient with id: " + id);
+        return ingredientService.getIngredientReplacements(id);
+    }
+
     //post's
 
     @PostMapping("/ingredients")
@@ -64,6 +71,20 @@ public class IngredientController {
         return ResponseEntity
                 .created(uri)
                 .body(savedIngredient);
+    }
+
+    @PostMapping("ingredients/{id}/replacements")
+    public ResponseEntity<Ingredient> addIngredientReplacements(@PathVariable Long id, @RequestBody
+            Set<Ingredient> replacements) {
+        Ingredient ingredient = ingredientService.addReplacements(id, replacements);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
+
+        return ResponseEntity
+                .created(uri).body(ingredient);
     }
 
     //put's

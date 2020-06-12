@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.biologicznieczynny</groupId>
     <artifactId>diy-cosmetics-database</artifactId>
-    <version>0.0.14-SNAPSHOT</version>
+    <version>0.0.17-SNAPSHOT</version>
     <name>diy-cosmetics-database</name>
     <description>DIY Cosmetics Database for Biologicznieczynny.pl</description>
 
@@ -49,6 +49,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.h2database</groupId>-->
+<!--            <artifactId>h2</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

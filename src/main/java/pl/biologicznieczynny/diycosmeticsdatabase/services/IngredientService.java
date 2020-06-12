@@ -9,6 +9,8 @@ import pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling.NotFoundExce
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Ingredient;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.IngredientRepository;
 
+import java.util.Set;
+
 @Service
 public class IngredientService {
 
@@ -53,5 +55,21 @@ public class IngredientService {
         } else {
             throw new NotFoundException("Tool with id:" + id + " does not exist - cannot be updated!");
         }
+    }
+
+    public Set<Ingredient> getIngredientReplacements(Long id) {
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Ingredient with id " + id + " not found"));
+
+        return ingredient.getReplacements();
+    }
+
+    public Ingredient addReplacements(Long id, Set<Ingredient> replacements) {
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Ingredient with id " + id + " not found"));
+
+        ingredient.setReplacements(replacements);
+
+        return ingredientRepository.save(ingredient);
     }
 }

@@ -13,4 +13,7 @@ spring:
     username: root
     password: demopass1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
 
