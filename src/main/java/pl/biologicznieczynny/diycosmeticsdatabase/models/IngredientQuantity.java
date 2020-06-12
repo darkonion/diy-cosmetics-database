@@ -9,8 +9,12 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,6 +30,12 @@ public class IngredientQuantity extends BaseEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure unitOfMeasure;
+
+    @ManyToMany
+    @JoinTable(name = "ingredient_quantity_ingredient",
+            joinColumns = @JoinColumn(name ="ingredient_quantity_id"),
+            inverseJoinColumns = @JoinColumn(name ="ingredient_id"))
+    private Set<Ingredient> replacements = new HashSet<>();
 
     @JsonIgnore
     @ManyToOne

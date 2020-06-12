@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.biologicznieczynny</groupId>
     <artifactId>diy-cosmetics-database</artifactId>
-    <version>0.0.17-SNAPSHOT</version>
+    <version>0.0.18-SNAPSHOT</version>
     <name>diy-cosmetics-database</name>
     <description>DIY Cosmetics Database for Biologicznieczynny.pl</description>
 

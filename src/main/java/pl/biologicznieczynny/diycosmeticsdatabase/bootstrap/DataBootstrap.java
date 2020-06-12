@@ -103,8 +103,6 @@
 //        propyleneGlycol.setImageUrl("https://procold.pl/wp-content/uploads/2019/04/Depositphotos_6800377_ds-e1554878919448.jpg");
 //        propyleneGlycol.setLatinName("propylene-1,3-diol");
 //        propyleneGlycol.setBlogUrl("http://biologicznieczynny.pl/encyclopedia/");
-//        propyleneGlycol.getReplacements().add(glycerin);
-//        glycerin.getReplacements().add(propyleneGlycol);
 //
 //        ingredientRepository.save(water);
 //        ingredientRepository.save(linenOil);
@@ -299,6 +297,8 @@
 //        oilBalm.setTools(Set.of(spoon));
 //
 //        waterQuantity.setRecipe(oilBalm);
+//        waterQuantity.getReplacements().add(etoh);
+//        waterQuantity.getReplacements().add(glycerin);
 //        oilQuantity.setRecipe(oilBalm);
 //        glycerinQuantity.setRecipe(oilBalm);
 //        oilBalm.setIngredientQuantities(ingredientQuantities);
