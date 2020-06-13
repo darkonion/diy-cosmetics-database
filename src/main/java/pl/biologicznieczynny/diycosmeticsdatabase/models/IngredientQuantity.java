@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = {"recipe"}, callSuper = true)
 @NoArgsConstructor
 @Entity
 public class IngredientQuantity extends BaseEntity {

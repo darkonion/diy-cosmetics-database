@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: default
+    active: test
   application:
     name: diy-cosmetics-database
   security:

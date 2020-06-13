@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = "recipe", callSuper = true)
 @Entity
 public class Step extends BaseEntity {
 

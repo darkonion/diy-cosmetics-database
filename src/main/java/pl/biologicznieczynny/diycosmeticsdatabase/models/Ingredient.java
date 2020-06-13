@@ -1,6 +1,5 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.models;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "replacements")
-@AllArgsConstructor
+@EqualsAndHashCode(exclude = "replacements", callSuper = true)
 @NoArgsConstructor
 public class Ingredient extends BaseEntity {
 

@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "recipes")
+@EqualsAndHashCode(exclude = "recipes", callSuper = true)
 public class RecipeCategory extends BaseEntity{
 
     private String categoryName;

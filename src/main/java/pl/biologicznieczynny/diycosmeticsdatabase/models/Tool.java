@@ -1,7 +1,10 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -10,7 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = "recipes")
 public class Tool extends BaseEntity {
 
     private String name;
