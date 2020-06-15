@@ -21,7 +21,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,24 +59,6 @@ class StepsControllerTest {
     }
 
     @Test
-    void deleteStepByIdTest() throws Exception {
-
-        mockMvc.perform(delete("/api/steps/1"))
-                .andExpect(status().isOk());
-
-        verify(stepService, times(1)).deleteStepById(any());
-    }
-
-    @Test
-    void deleteStepByIdNotFound() throws Exception {
-
-        mockMvc.perform(delete("/api/steps/"))
-                .andExpect(status().isNotFound());
-
-        verify(stepService, times(0)).deleteStepById(any());
-    }
-
-    @Test
     void addNewStepToRecipe() throws Exception {
         String json = new ObjectMapper().writeValueAsString(testStep);
 
@@ -86,9 +67,10 @@ class StepsControllerTest {
                 .addNewStepToRecipe(anyLong(), any(Step.class)))
                 .thenReturn(testRecipe);
 
-        //then
         mockMvc.perform(post("/api/recipes/1/steps")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.steps", hasSize(1)))
@@ -106,9 +88,11 @@ class StepsControllerTest {
                 .addNewStepToRecipe(anyLong(), any(Step.class)))
                 .thenThrow(new NotFoundException("Recipe with id 10 not found!"));
 
-        //then
+
         mockMvc.perform(post("/api/recipes/10/steps")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.debugMessage")
                         .value(containsString("Recipe with id 10 not found!")));

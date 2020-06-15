@@ -57,7 +57,16 @@ public class RecipeController {
     @PostMapping("/recipes")
     public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe recipe) {
         log.info("Persisting new recipe: " + recipe.getName());
-        return recipeService.addNewRecipe(recipe);
+        Recipe savedRecipe = recipeService.addNewRecipe(recipe);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedRecipe.getId())
+                .toUri();
+
+        return ResponseEntity
+                .created(uri)
+                .body(savedRecipe);
     }
 
     //delete's

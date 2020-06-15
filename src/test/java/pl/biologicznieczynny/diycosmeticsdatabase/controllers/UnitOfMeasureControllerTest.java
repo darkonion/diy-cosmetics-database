@@ -47,8 +47,9 @@ class UnitOfMeasureControllerTest {
         //when
         when(repository.findAll()).thenReturn(uoms);
 
-        //then
         mockMvc.perform(get("/api/units"))
+
+                //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
 

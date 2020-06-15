@@ -47,8 +47,9 @@ class CategoryControllerTest {
         //when
         when(repository.findAll()).thenReturn(recipeCategories);
 
-        //then
         mockMvc.perform(get("/api/recipeCategories"))
+
+                //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
 

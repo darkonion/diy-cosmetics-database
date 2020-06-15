@@ -28,7 +28,6 @@ import java.util.Set;
 public class Recipe extends BaseEntity {
 
     private String name;
-
     private String intro;
 
     @Lob

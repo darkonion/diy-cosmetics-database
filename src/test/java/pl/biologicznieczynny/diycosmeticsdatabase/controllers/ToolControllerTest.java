@@ -24,7 +24,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -71,27 +70,13 @@ class ToolControllerTest {
         //when
         when(toolService.getToolsList()).thenReturn(tools);
 
-        //then
         mockMvc.perform(get("/api/tools")
                 .contentType(MediaType.APPLICATION_JSON))
+
+                //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id").value(1));
-    }
-
-    @Test
-    void getToolListEmpty() throws Exception {
-        //given
-        List<Tool> tools = new ArrayList<>();
-
-        //when
-        when(toolService.getToolsList()).thenReturn(tools);
-
-        //then
-        mockMvc.perform(get("/api/tools")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
@@ -103,9 +88,11 @@ class ToolControllerTest {
         //when
         when(toolService.addNewTool(any(Tool.class))).thenReturn(testTool);
 
-        //then
+
         mockMvc.perform(post("/api/tools")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1));
 
@@ -114,23 +101,16 @@ class ToolControllerTest {
 
     @Test
     void addNewToolExceptionEmptyBody() throws Exception {
-        //then
+
         mockMvc.perform(post("/api/tools")
                 .contentType(MediaType.APPLICATION_JSON))
+
+                //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.debugMessage")
                         .value(containsString("Required request body is missing")));
 
         verify(toolService, never()).addNewTool(any(Tool.class));
-    }
-
-    @Test
-    void deleteTool() throws Exception {
-
-        mockMvc.perform(delete("/api/tools/1"))
-                .andExpect(status().isOk());
-
-        verify(toolService, times(1)).deleteToolById(1L);
     }
 
     @Test
@@ -142,9 +122,10 @@ class ToolControllerTest {
         //when
         when(toolService.updateTool(any(Tool.class))).thenReturn(testTool);
 
-        //then
         mockMvc.perform(put("/api/tools")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("test"));
@@ -162,9 +143,11 @@ class ToolControllerTest {
         when(toolService.updateTool(any(Tool.class)))
                 .thenThrow(new NotFoundException("Tool with id: 1 does not exist - cannot be updated!"));
 
-        //then
+
         mockMvc.perform(put("/api/tools")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.debugMessage")
                         .value(containsString("Tool with id: 1 does not exist")));
@@ -173,27 +156,15 @@ class ToolControllerTest {
     }
 
     @Test
-    void getToolById() throws Exception {
-
-        //when
-        when(toolService.findById(anyLong())).thenReturn(testTool);
-
-        //then
-        mockMvc.perform(get("/api/tools/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"));
-
-        verify(toolService, times(1)).findById(anyLong());
-    }
-
-    @Test
     void getToolByIdNumberFormatException() throws Exception {
 
         //when
         when(toolService.findById(anyLong())).thenReturn(testTool);
 
-        //then
+
         mockMvc.perform(get("/api/tools/abc"))
+
+                //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Incorrect number format"));
 

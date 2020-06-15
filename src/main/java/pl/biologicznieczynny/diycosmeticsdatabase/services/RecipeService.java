@@ -4,14 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.biologicznieczynny.diycosmeticsdatabase.exceptionHandling.NotFoundException;
 import pl.biologicznieczynny.diycosmeticsdatabase.models.Recipe;
 import pl.biologicznieczynny.diycosmeticsdatabase.repositories.RecipeRepository;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -45,21 +42,12 @@ public class RecipeService {
     }
 
     //adding new recipe
-    public ResponseEntity<Recipe> addNewRecipe(Recipe recipe) {
+    public Recipe addNewRecipe(Recipe recipe) {
 
         recipe.getIngredientQuantities().forEach(q -> q.setRecipe(recipe));
         recipe.getSteps().forEach(s -> s.setRecipe(recipe));
 
-        Recipe savedRecipe = recipeRepository.save(recipe);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedRecipe.getId())
-                .toUri();
-
-        return ResponseEntity
-                .created(uri)
-                .body(savedRecipe);
+        return recipeRepository.save(recipe);
     }
 
     //deleting recipe by recipe id

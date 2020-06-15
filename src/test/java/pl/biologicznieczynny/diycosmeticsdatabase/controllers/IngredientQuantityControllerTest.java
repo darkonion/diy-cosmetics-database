@@ -21,7 +21,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,24 +65,6 @@ class IngredientQuantityControllerTest {
     }
 
     @Test
-    void deleteIngredientQuantityByIdTest() throws Exception {
-
-        mockMvc.perform(delete("/api/quantities/1"))
-                .andExpect(status().isOk());
-
-        verify(quantityService, times(1)).deleteQuantity(any());
-    }
-
-    @Test
-    void deleteIngredientQuantityByIdNotFound() throws Exception {
-
-        mockMvc.perform(delete("/api/quantities/"))
-                .andExpect(status().isNotFound());
-
-        verify(quantityService, times(0)).deleteQuantity(any());
-    }
-
-    @Test
     void addNewQuantityToRecipe() throws Exception {
         String json = new ObjectMapper().writeValueAsString(testQuantity);
 
@@ -92,9 +73,10 @@ class IngredientQuantityControllerTest {
                 .addNewQuantityToRecipe(anyLong(), any(IngredientQuantity.class)))
                 .thenReturn(testRecipe);
 
-        //then
         mockMvc.perform(post("/api/recipes/1/quantities")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.ingredientQuantities", hasSize(1)))
@@ -105,16 +87,17 @@ class IngredientQuantityControllerTest {
 
     @Test
     void addNewQuantityToRecipeEmptyBody() throws Exception {
-        String json = new ObjectMapper().writeValueAsString(testQuantity);
 
         //when
         when(quantityService
                 .addNewQuantityToRecipe(anyLong(), any(IngredientQuantity.class)))
                 .thenReturn(testRecipe);
 
-        //then
+
         mockMvc.perform(post("/api/recipes/1/quantities")
                 .contentType(MediaType.APPLICATION_JSON))
+
+                //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.debugMessage")
                 .value(containsString("Required request body is missing")));

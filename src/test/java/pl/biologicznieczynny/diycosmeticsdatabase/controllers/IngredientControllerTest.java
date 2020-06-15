@@ -1,6 +1,7 @@
 package pl.biologicznieczynny.diycosmeticsdatabase.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -27,10 +27,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +41,6 @@ class IngredientControllerTest {
 
     MockMvc mockMvc;
 
-    List<Ingredient> ingredients;
     Ingredient testIngredient1;
 
     @BeforeEach
@@ -57,8 +54,8 @@ class IngredientControllerTest {
         generateList();
     }
 
-    void generateList() {
-        ingredients = new ArrayList<>();
+    List<Ingredient> generateList() {
+        List<Ingredient> ingredients = new ArrayList<>();
         testIngredient1 = new Ingredient();
         testIngredient1.setId(1L);
         testIngredient1.setName("test1");
@@ -78,37 +75,39 @@ class IngredientControllerTest {
         testIngredient4.setId(4L);
         testIngredient4.setName("test4");
         ingredients.add(testIngredient4);
+
+        return ingredients;
     }
 
     @Test
-    void getIngredientListPageable() throws Exception {
+    void getIngredientListPageable() {
+        //setup
+        final PageImpl<Ingredient> page = new PageImpl<>(generateList());
+        when(service.findAll(anyInt(), anyInt(), anyString())).thenReturn(page);
 
-        Page<Ingredient> pages = new PageImpl<>(ingredients);
+        //when
+        final Page<Ingredient> ingredientsList = controller.getIngredientListPageable(2, 0, "asc");
 
-        when(service.findAll(anyInt(), anyInt(), anyString())).thenReturn(pages);
-
-        mockMvc.perform(get("/api/ingredients")
-                .param("size", "2")
-                .param("page", "0")
-                .param("sort", "asc"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(4)));
-
-        verify(service, times(1)).findAll(anyInt(), anyInt(), anyString());
+        //then
+        Assertions.assertEquals(page.getSize(), ingredientsList.getSize());
+        for (int i = 0; i < ingredientsList.getSize(); i++) {
+            Assertions.assertEquals(page.getContent().get(i), ingredientsList.getContent().get(i));
+        }
     }
 
     @Test
     void getIngredientById() throws Exception {
         //when
-        when(service.findById(anyLong())).thenReturn(testIngredient1);
+        when(service.findById(1L)).thenReturn(testIngredient1);
 
-        //then
         mockMvc.perform(get("/api/ingredients/1"))
+
+                //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("test1"));
 
-        verify(service, times(1)).findById(anyLong());
+        verify(service, times(1)).findById(1L);
     }
 
     @Test
@@ -117,8 +116,9 @@ class IngredientControllerTest {
         //when
         when(service.findById(anyLong())).thenThrow(new NotFoundException("Ingredient with id 20 not found"));
 
-        //then
         mockMvc.perform(get("/api/ingredients/20"))
+
+                //then
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.debugMessage")
                         .value(containsString("Ingredient with id 20 not found")));
@@ -132,8 +132,10 @@ class IngredientControllerTest {
         //when
         when(service.findById(anyLong())).thenReturn(testIngredient1);
 
-        //then
+
         mockMvc.perform(get("/api/ingredients/asdf"))
+
+                //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message")
                         .value(containsString("Incorrect number format")));
@@ -151,39 +153,14 @@ class IngredientControllerTest {
         //when
         when(service.addNewIngredient(any(Ingredient.class))).thenReturn(testIngredient1);
 
-        //then
+
         mockMvc.perform(post("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("test1"));
 
         verify(service, times(1)).addNewIngredient(any());
-    }
-
-    @Test
-    void updateIngredient() throws Exception {
-
-        String json = new ObjectMapper().writeValueAsString(testIngredient1);
-
-        //when
-        when(service.updateIngredient(any(Ingredient.class))).thenReturn(testIngredient1);
-
-        //then
-        mockMvc.perform(put("/api/ingredients")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("test1"))
-                .andExpect(jsonPath("$.id").value("1"));
-
-        verify(service, times(1)).updateIngredient(any());
-    }
-
-    @Test
-    void deleteIngredient() throws Exception {
-
-        mockMvc.perform(delete("/api/ingredients/1"))
-                .andExpect(status().isOk());
-
-        verify(service, times(0)).findById(any());
     }
 }
