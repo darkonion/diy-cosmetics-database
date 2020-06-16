@@ -36,7 +36,7 @@ public class StepService {
                 .orElseThrow(() -> new NotFoundException("Recipe with id: " + id + " not found!"));
 
         step.setRecipe(recipe);
-        step.setSeq(countOrder(recipe.getSteps()) + 1);
+        step.setSeq(countOrder(recipe.getSteps()));
 
         recipe.getSteps().add(step);
 
@@ -48,9 +48,15 @@ public class StepService {
         if (steps.isEmpty()) {
             return 1;
         }
-        return steps.stream()
+
+        int seq = steps.stream()
                 .map(Step::getSeq)
                 .max(Comparator.comparingInt(s -> s))
                 .orElseThrow(() -> new RuntimeException("Steps ordering has been corrupted."));
+
+        if (seq < 1) {
+            return  1;
+        }
+        return seq + 1;
     }
 }
